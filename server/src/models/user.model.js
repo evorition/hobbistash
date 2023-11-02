@@ -1,17 +1,13 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { SALT_ROUNDS } from "../utils/config.utils";
+import { SALT_ROUNDS } from "../utils/config.utils.js";
 
 const userSchema = mongoose.Schema(
     {
-        username: {
-            type: String,
-            required: "Username is required.",
-        },
+        username: String,
         email: {
             type: String,
             unique: true,
-            required: "Email is required.",
         },
         password: String,
         blocked: { type: Boolean, default: false },
@@ -26,7 +22,7 @@ const userSchema = mongoose.Schema(
     { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-userSchema.pre("save", async (next) => {
+userSchema.pre("save", async function (next) {
     const user = this;
     if (!user.isModified("password")) {
         return next();
@@ -51,6 +47,4 @@ userSchema.set("toJSON", {
     },
 });
 
-const userModel = mongoose.model("User", userSchema);
-
-export default userModel;
+export default mongoose.model("User", userSchema);
