@@ -1,12 +1,11 @@
 import { validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET } from "../utils/config.utils.js";
+import { signAcessToken } from "../utils/jwt.utils.js";
 import User from "../models/user.model.js";
 
 const signup = async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(422).json({ errors: result.array() });
+        return res.status(422).json({ message: result.array()[0].msg });
     }
     const { username, email, password } = req.body;
     const newUser = new User({ username, email, password });
@@ -17,21 +16,19 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(422).json({ errors: result.array() });
+        return res.status(422).json({ message: result.array()[0].msg });
     }
     const { email, password } = req.body;
-    const user = User.findOne({ email });
-    const isPasswordCorrect = User.isPasswordValid(password);
+    const user = await User.findOne({ email });
+    const isPasswordCorrect =
+        user === null ? false : await user.isPasswordValid(password);
     if (!(user && isPasswordCorrect)) {
         return res.status(422).json({ message: "Invalid email or password." });
     } else if (user.blocked) {
         return res.status(403).json({ message: "User is blocked." });
     }
     const userSerialized = user.toJSON();
-    const accessToken = jwt.sign(
-        { id: userSerialized.id },
-        ACCESS_TOKEN_SECRET
-    );
+    const accessToken = signAcessToken(userSerialized);
     res.json({ accessToken, ...userSerialized });
 };
 

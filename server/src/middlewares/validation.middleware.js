@@ -3,7 +3,7 @@ import { checkSchema } from "express-validator";
 const commonAuthSchema = {
     email: {
         isEmail: {
-            errorMessage: "Invalid email address.",
+            errorMessage: "Invalid email address format.",
         },
     },
     password: {
