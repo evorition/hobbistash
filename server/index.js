@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import "express-async-errors";
 import authRouter from "./src/routes/auth.route.js";
+import collectionsRouter from "./src/routes/collections.route.js";
 import errorHandler from "./src/middlewares/errorHandler.middleware.js";
 import { PORT, MONGODB_URL } from "./src/utils/config.utils.js";
 
@@ -24,6 +25,7 @@ app.get("/", (_, res) => {
     res.sendStatus(200);
 });
 app.use("/api/auth", authRouter);
+app.use("/api/collections", collectionsRouter);
 
 app.use(errorHandler);
 

@@ -13,20 +13,7 @@ const collectionSchema = mongoose.Schema(
         name: String,
         description: String,
         imageUrl: String,
-        topic: {
-            type: String,
-            enum: [
-                "Books",
-                "Coins",
-                "Postcards",
-                "Seashells",
-                "Stamps",
-                "Vinyl",
-                "Watches",
-                "Wine",
-                "Other",
-            ],
-        },
+        topic: String,
         customFields: [customFieldSchema],
         items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -34,9 +21,9 @@ const collectionSchema = mongoose.Schema(
     { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-collectionSchema.methods.itemsCount = function () {
+collectionSchema.virtual("itemsCount").get(function () {
     return this.items.length;
-};
+});
 
 collectionSchema.set("toJSON", {
     transform: (document, returnedObject) => {
