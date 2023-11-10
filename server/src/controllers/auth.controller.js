@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { signAcessToken } from "../utils/jwt.utils.js";
+import { signAccessToken } from "../utils/jwt.utils.js";
 import User from "../models/user.model.js";
 
 const signup = async (req, res) => {
@@ -28,7 +28,7 @@ const signin = async (req, res) => {
         return res.status(403).json({ message: "User is blocked." });
     }
     const userSerialized = user.toJSON();
-    const accessToken = signAcessToken(userSerialized);
+    const accessToken = signAccessToken(userSerialized);
     res.json({ accessToken, ...userSerialized });
 };
 
