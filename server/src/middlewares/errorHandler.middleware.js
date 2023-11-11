@@ -4,6 +4,8 @@ const errorHandler = (error, req, res, next) => {
         return res
             .status(409)
             .json({ message: "This email address is already in use." });
+    } else if (error.name === "CastError") {
+        return res.status(400).json({ message: "Malformatted id." });
     }
     next(error);
 };

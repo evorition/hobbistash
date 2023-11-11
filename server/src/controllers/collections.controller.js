@@ -2,7 +2,10 @@ import { validationResult } from "express-validator";
 import Collection from "../models/collection.model.js";
 import { checkUserPermission } from "../services/permissions.service.js";
 import { removeItemsByCollectionId } from "../services/item.service.js";
-import { removeCollectionFromUser } from "../services/user.service.js";
+import {
+    removeCollectionFromUser,
+    addCollectionToUser,
+} from "../services/user.service.js";
 
 const getAll = async (req, res) => {
     const { limit } = req.query;
@@ -17,8 +20,8 @@ const getAll = async (req, res) => {
 };
 
 const getById = async (req, res) => {
-    const { id } = req.params;
-    const collection = await Collection.findById(id).populate([
+    const { collectionId } = req.params;
+    const collection = await Collection.findById(collectionId).populate([
         {
             path: "user",
             select: "username",
@@ -38,32 +41,39 @@ const create = async (req, res) => {
     }
     const user = req.user;
     const newCollectionData = { ...req.body };
+    const newCollectionUserId = newCollectionData.user;
     try {
-        checkUserPermission(user, newCollectionData.user);
+        checkUserPermission(user, newCollectionUserId);
     } catch (error) {
         return res.status(403).json({ message: error.message });
     }
-    let newCollection = await new Collection(newCollectionData).save();
-    user.collections.push(newCollection._id);
-    await user.save();
-    newCollection = await Collection.findById(newCollection._id).populate(
-        "user",
-        { username: 1 }
-    );
-    return res.status(201).json(newCollection);
+    const newCollection = await new Collection(newCollectionData).save();
+    addCollectionToUser(newCollectionUserId, newCollection._id);
+    const populatedCollection = await Collection.findById(
+        newCollection._id
+    ).populate("user", { username: 1 });
+    return res.status(201).json(populatedCollection);
 };
 
 const update = async (req, res) => {
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(422).json({ message: result.array()[0].msg });
+    }
     const user = req.user;
-    const { id } = req.params;
+    const { collectionId } = req.params;
     const updatedCollectionData = { ...req.body };
+    const collectionToUpdate = await Collection.findById(collectionId);
     try {
-        checkUserPermission(user, id);
+        checkUserPermission(user, updatedCollectionData.user);
     } catch (error) {
         return res.status(403).json({ message: error.message });
     }
+    if (!collectionToUpdate) {
+        return res.status(404).json({ message: "Collection not found." });
+    }
     const updatedCollection = await Collection.findByIdAndUpdate(
-        id,
+        collectionId,
         updatedCollectionData,
         { new: true }
     ).populate([
@@ -81,19 +91,20 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
     const user = req.user;
-    const { id } = req.params;
-    const collectionToDelete = await Collection.findById(id);
-    if (!collectionToDelete) {
-        return res.status(404).json({ message: "Collection not found." });
-    }
+    const { collectionId } = req.params;
+    const collectionToDelete = await Collection.findById(collectionId);
+    const collectionUserId = collectionToDelete.user.toString();
     try {
-        checkUserPermission(user, collectionToDelete.user.toString());
+        checkUserPermission(user, collectionUserId);
     } catch (error) {
         return res.status(403).json({ message: error.message });
     }
-    await removeItemsByCollectionId(id);
-    await removeCollectionFromUser(collectionToDelete.user, id);
-    await collectionToDelete.remove();
+    if (!collectionToDelete) {
+        return res.status(404).json({ message: "Collection not found." });
+    }
+    await removeItemsByCollectionId(collectionId);
+    await removeCollectionFromUser(collectionUserId, collectionId);
+    await Collection.findByIdAndDelete(collectionId);
     res.sendStatus(204);
 };
 

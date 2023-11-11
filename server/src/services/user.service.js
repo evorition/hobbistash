@@ -1,9 +1,17 @@
 import User from "../models/user.model.js";
 
 const removeCollectionFromUser = async (userId, collectionId) => {
-    return User.findByIdAndUpdate(userId, {
-        $pull: { collection: collectionId },
-    });
+    await User.updateOne(
+        { _id: userId },
+        { $pull: { collections: collectionId } }
+    );
 };
 
-export { removeCollectionFromUser };
+const addCollectionToUser = async (userId, collectionId) => {
+    await User.updateOne(
+        { _id: userId },
+        { $push: { collections: collectionId } }
+    );
+};
+
+export { removeCollectionFromUser, addCollectionToUser };
