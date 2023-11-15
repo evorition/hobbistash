@@ -31,6 +31,11 @@ const getById = async (req, res) => {
             select: "name customFields",
         },
     ]);
+    if (!collection) {
+        return res
+            .status(404)
+            .json({ message: "Request collection doesn't exist." });
+    }
     res.json(collection);
 };
 
@@ -52,7 +57,7 @@ const create = async (req, res) => {
     const populatedCollection = await Collection.findById(
         newCollection._id
     ).populate("user", { username: 1 });
-    return res.status(201).json(populatedCollection);
+    res.status(201).json(populatedCollection);
 };
 
 const update = async (req, res) => {
