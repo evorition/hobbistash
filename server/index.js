@@ -2,10 +2,11 @@ import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import "express-async-errors";
-import authRouter from "./src/routes/auth.route.js";
-import collectionsRouter from "./src/routes/collections.route.js";
 import errorHandler from "./src/middlewares/errorHandler.middleware.js";
 import { PORT, MONGODB_URL } from "./src/utils/config.utils.js";
+import authRouter from "./src/routes/auth.route.js";
+import collectionsRouter from "./src/routes/collections.route.js";
+import itemsRouter from "./src/routes/items.route.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.get("/", (_, res) => {
 });
 app.use("/api/auth", authRouter);
 app.use("/api/collections", collectionsRouter);
+app.use("/api/items", itemsRouter);
 
 app.use(errorHandler);
 
