@@ -14,4 +14,12 @@ const addItemIdToCollection = async (collectionId, itemId) => {
     );
 };
 
-export { removeItemFromCollection, addItemIdToCollection };
+const removeCollectionsWithUserId = async (userId) => {
+    await Collection.deleteMany({ user: userId });
+};
+
+export {
+    removeItemFromCollection,
+    addItemIdToCollection,
+    removeCollectionsWithUserId,
+};

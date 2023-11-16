@@ -7,6 +7,7 @@ import { PORT, MONGODB_URL } from "./src/utils/config.utils.js";
 import authRouter from "./src/routes/auth.route.js";
 import collectionsRouter from "./src/routes/collections.route.js";
 import itemsRouter from "./src/routes/items.route.js";
+import usersRouter from "./src/routes/users.route.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/", (_, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/collections", collectionsRouter);
 app.use("/api/items", itemsRouter);
+app.use("/api/users", usersRouter);
 
 app.use(errorHandler);
 
