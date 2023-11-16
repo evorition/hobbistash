@@ -31,7 +31,7 @@ const create = async (req, res) => {
         return res.status(403).json({ message: error.message });
     }
     const newItem = await new Item(newItemData).save();
-    await addItemIdToCollection(newItem.collection);
+    await addItemIdToCollection(newItem.collection, newItem._id);
     const populatedItem = await populateItem(newItem._id);
     res.status(201).json(populatedItem);
 };
@@ -82,7 +82,9 @@ const remove = async (req, res) => {
         return res.status(403).json({ message: error.message });
     }
     if (!itemToDelete) {
-        res.status(404).json({ message: "Requested item doesn't exist." });
+        return res
+            .status(404)
+            .json({ message: "Requested item doesn't exist." });
     }
     await removeItemFromCollection(itemToDelete.collection, itemId);
     await Item.findByIdAndDelete(itemId);
