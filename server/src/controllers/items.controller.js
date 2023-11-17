@@ -7,6 +7,19 @@ import {
 import { populateItem } from "../services/item.service.js";
 import Item from "../models/item.model.js";
 
+const getAll = async (req, res) => {
+    const { limit } = req.query;
+    let itemsQuery = Item.find().sort({ createdAt: -1 });
+    if (limit) {
+        itemsQuery = itemsQuery.limit(parseInt(limit, 10));
+    }
+    const items = await itemsQuery.populate([
+        { path: "user", select: "username" },
+        { path: "collection", select: "name" },
+    ]);
+    res.json(items);
+};
+
 const getById = async () => {
     const { itemId } = req.params;
     const item = await populateItem(itemId);
@@ -91,4 +104,4 @@ const remove = async (req, res) => {
     res.sendStatus(204);
 };
 
-export { getById, create, like, update, remove };
+export { getAll, getById, create, like, update, remove };

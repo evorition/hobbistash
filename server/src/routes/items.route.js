@@ -9,6 +9,7 @@ import {
 
 const itemsRouter = Router();
 
+itemsRouter.get("/", itemsController.getAll);
 itemsRouter.get("/:itemId", itemsController.getById);
 itemsRouter.post(
     "/",
