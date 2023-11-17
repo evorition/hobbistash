@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as usersController from "../controllers/users.controller.js";
 import { userExtractor } from "../middlewares/auth.middleware.js";
 import { isUserAdmin, isUserBlocked } from "../middlewares/user.middleware.js";
+import { updateUserValidationSchema } from "../middlewares/validators/userValidation.middleware.js";
 
 const usersRouter = Router();
 
@@ -13,7 +14,7 @@ usersRouter.get(
 usersRouter.get("/:userId", usersController.getById);
 usersRouter.put(
     "/:userId",
-    [userExtractor, isUserBlocked, isUserAdmin],
+    [userExtractor, isUserBlocked, isUserAdmin, updateUserValidationSchema],
     usersController.update
 );
 usersRouter.delete(

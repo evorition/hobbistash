@@ -3,7 +3,7 @@ import authController from "../controllers/auth.controller.js";
 import {
     signinValidationSchema,
     signupValidationSchema,
-} from "../middlewares/validation.middleware.js";
+} from "../middlewares/validators/authValidation.middleware.js";
 
 const authRouter = Router();
 

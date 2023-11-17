@@ -18,8 +18,7 @@ const commonAuthSchema = {
 const signupValidationSchema = checkSchema({
     username: {
         trim: true,
-        isEmpty: {
-            negated: true,
+        notEmpty: {
             errorMessage: "Username is required.",
         },
     },
