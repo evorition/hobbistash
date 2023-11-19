@@ -2,29 +2,30 @@ import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { BsMoon, BsSun } from "react-icons/bs";
 
+import storage from "../utils/storage";
+
 const ThemeSwitcher = () => {
     const [theme, setTheme] = useState("light");
+
+    const applyTheme = (newTheme) => {
+        document.documentElement.setAttribute("data-bs-theme", newTheme);
+    };
 
     useEffect(() => {
         const prefersDarkMode = window.matchMedia(
             "(prefers-color-scheme: dark)"
         ).matches;
         const initialTheme =
-            localStorage.getItem("theme") ||
-            (prefersDarkMode ? "dark" : "light");
+            storage.getTheme() || (prefersDarkMode ? "dark" : "light");
+        storage.setTheme(initialTheme);
         setTheme(initialTheme);
-        localStorage.setItem("theme", initialTheme);
         applyTheme(initialTheme);
     }, []);
 
-    const applyTheme = (selectedTheme) => {
-        document.documentElement.setAttribute("data-bs-theme", selectedTheme);
-    };
-
     const handleThemeChange = () => {
         const newTheme = theme === "light" ? "dark" : "light";
+        storage.setTheme(newTheme);
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
         applyTheme(newTheme);
     };
 

@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
+import Notification from "./components/Notification";
 import Header from "./components/Header";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
@@ -10,6 +11,7 @@ const App = () => {
     return (
         <>
             <Header />
+            <Notification />
             <Routes>
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="/" element={<HomePage />} />
