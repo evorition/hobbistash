@@ -5,9 +5,12 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
+import { useUser } from "../contexts/UserContext";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const Header = () => {
+    const { user, signOut } = useUser();
+
     return (
         <Navbar expand="lg" className="bg-secondary">
             <Container fluid>
@@ -30,18 +33,23 @@ const Header = () => {
                         />
                         <Button variant="success">Search</Button>
                     </Form>
-                    <Nav className="my-lg-0">
-                        <Nav.Link href="/signin">Sign In</Nav.Link>
-                        <Nav.Link href="/signup">Sign Up</Nav.Link>
-                        <NavDropdown title="Username" align="end">
-                            <NavDropdown.Item href="#action3">
-                                Profile
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">
-                                Sign Out
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
+                    {user ? (
+                        <Nav className="my-lg-0">
+                            <NavDropdown title={user.username} align="end">
+                                <NavDropdown.Item href="#action3">
+                                    Profile
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => signOut()}>
+                                    Sign Out
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    ) : (
+                        <Nav className="my-lg-0">
+                            <Nav.Link href="/signin">Sign In</Nav.Link>
+                            <Nav.Link href="/signup">Sign Up</Nav.Link>
+                        </Nav>
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

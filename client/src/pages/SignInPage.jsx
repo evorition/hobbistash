@@ -1,7 +1,9 @@
-// import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-// import { signin } from "../reducers/userReducer";
+import authService from "../services/auth";
+import { useUser } from "../contexts/UserContext";
+import { useNotification } from "../contexts/NotificationContext";
 import AuthForm from "../components/AuthForm";
 
 const signInSchema = Yup.object().shape({
@@ -12,11 +14,9 @@ const signInSchema = Yup.object().shape({
 });
 
 const SignInPage = () => {
-    // const dispatch = useDispatch();
-
-    // const onSubmit = (data) => {
-    //     dispatch(signin(data.email, data.password));
-    // };
+    const { saveUser } = useUser();
+    const { displayNotification } = useNotification();
+    const navigate = useNavigate();
 
     const signInFields = [
         {
@@ -33,12 +33,22 @@ const SignInPage = () => {
         },
     ];
 
+    const onSubmit = async ({ email, password }) => {
+        try {
+            const user = await authService.signin(email, password);
+            saveUser(user);
+            navigate("/");
+        } catch (error) {
+            displayNotification(error);
+        }
+    };
+
     return (
         <AuthForm
             title="Sign In"
             fields={signInFields}
             schema={signInSchema}
-            // onSubmit={onSubmit}
+            onSubmit={onSubmit}
             submitButtonText="Sign In"
         />
     );

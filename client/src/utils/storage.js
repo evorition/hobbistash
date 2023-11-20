@@ -27,6 +27,7 @@ const getUser = () => {
 
 const removeUser = () => {
     localStorage.removeItem("user");
+    token = null;
 };
 
 const getToken = () => token;

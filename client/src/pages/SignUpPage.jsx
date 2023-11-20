@@ -1,13 +1,12 @@
-// import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-// import authService from "../services/auth";
+import authService from "../services/auth";
+import { useNotification } from "../contexts/NotificationContext";
 import AuthForm from "../components/AuthForm";
-// import { displayNotification } from "../reducers/notificationReducer";
 
 const signUpSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    username: Yup.string().required("Username is required"),
     email: Yup.string()
         .email("Invalid email address")
         .required("Email is required"),
@@ -18,23 +17,13 @@ const signUpSchema = Yup.object().shape({
 });
 
 const SignUpPage = () => {
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch();
-
-    // const onSubmit = async (data) => {
-    //     try {
-    //         await authService.signup(data.name, data.email, data.password);
-    //         navigate("login");
-    //     } catch (error) {
-    //         const errorMessage = error.response.data.message;
-    //         dispatch(displayNotification(errorMessage));
-    //     }
-    // };
+    const { displayNotification } = useNotification();
+    const navigate = useNavigate();
 
     const signUpFields = [
         {
-            name: "name",
-            label: "Name",
+            name: "username",
+            label: "Username",
             type: "text",
             placeholder: "John Doe",
         },
@@ -58,12 +47,21 @@ const SignUpPage = () => {
         },
     ];
 
+    const onSubmit = async ({ username, email, password }) => {
+        try {
+            await authService.signup(username, email, password);
+            navigate("/signin");
+        } catch (error) {
+            displayNotification(error);
+        }
+    };
+
     return (
         <AuthForm
             title="Sign Up"
             fields={signUpFields}
             schema={signUpSchema}
-            // onSubmit={onSubmit}
+            onSubmit={onSubmit}
             submitButtonText="Sign Up"
         />
     );

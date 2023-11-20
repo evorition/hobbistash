@@ -19,7 +19,7 @@ const signin = async (req, res) => {
         return res.status(422).json({ message: result.array()[0].msg });
     }
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }, { collections: 0 });
     const isPasswordCorrect =
         user === null ? false : await user.isPasswordValid(password);
     if (!(user && isPasswordCorrect)) {

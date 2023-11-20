@@ -1,13 +1,21 @@
 import { Routes, Route } from "react-router-dom";
 
+import { useUser } from "./contexts/UserContext";
 import Notification from "./components/Notification";
 import Header from "./components/Header";
 import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
+import { useEffect } from "react";
 
 const App = () => {
+    const { loadUser } = useUser();
+
+    useEffect(() => {
+        loadUser();
+    }, []);
+
     return (
         <>
             <Header />

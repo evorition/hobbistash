@@ -7,10 +7,10 @@ const commonAuthSchema = {
         },
     },
     password: {
+        isString: true,
         trim: true,
-        isLength: {
-            options: { min: 6 },
-            errorMessage: "Password should be at least 6 characters long.",
+        notEmpty: {
+            errorMessage: "Password should not be empty",
         },
     },
 };

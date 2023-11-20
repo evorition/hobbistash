@@ -10,7 +10,10 @@ const Notification = () => {
     }
 
     return (
-        <Toast className="position-absolute start-50 translate-middle my-5">
+        <Toast
+            className="position-absolute start-50 translate-middle my-5"
+            bg="danger"
+        >
             <Toast.Body>{notificationMessage}</Toast.Body>
         </Toast>
     );
