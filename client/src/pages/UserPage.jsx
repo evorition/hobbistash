@@ -54,7 +54,7 @@ const UserPage = () => {
                 )}
             </Row>
             <hr />
-            {fetchedUser.collections && fetchedUser.collections.length > 0 ? (
+            {fetchedUser.collections.length > 0 ? (
                 <CollectionGrid collections={fetchedUser.collections} />
             ) : (
                 <p className="fst-italic">

@@ -15,6 +15,7 @@ const CollectionGrid = ({ collections }) => {
                     style={{ maxWidth: "20rem" }}
                 >
                     <CollectionCard
+                        id={collection.id}
                         name={collection.name}
                         imageUrl={collection.imageUrl}
                         topic={collection.topic}

@@ -1,12 +1,12 @@
 import Card from "react-bootstrap/Card";
 
-const CollectionCard = ({ name, imageUrl, topic, user }) => {
+const CollectionCard = ({ id, name, imageUrl, topic, user }) => {
     return (
         <Card>
             <Card.Img variant="top" src={imageUrl || "/no-image.webp"} />
             <Card.Body>
                 <Card.Title>
-                    <Card.Link href="#">{name}</Card.Link>
+                    <Card.Link href={`/collection/${id}`}>{name}</Card.Link>
                 </Card.Title>
                 {user.username && (
                     <Card.Subtitle>
