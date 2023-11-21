@@ -36,7 +36,7 @@ const Header = () => {
                     {user ? (
                         <Nav className="my-lg-0">
                             <NavDropdown title={user.username} align="end">
-                                <NavDropdown.Item href="#action3">
+                                <NavDropdown.Item href={`/user/${user.id}`}>
                                     Profile
                                 </NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => signOut()}>

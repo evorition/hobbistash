@@ -8,9 +8,14 @@ const CollectionCard = ({ name, imageUrl, topic, user }) => {
                 <Card.Title>
                     <Card.Link href="#">{name}</Card.Link>
                 </Card.Title>
-                <Card.Subtitle>
-                    Owner: <Card.Link href="#">{user.username}</Card.Link>
-                </Card.Subtitle>
+                {user.username && (
+                    <Card.Subtitle>
+                        Owner:{" "}
+                        <Card.Link href={`/user/${user.id}`}>
+                            {user.username}
+                        </Card.Link>
+                    </Card.Subtitle>
+                )}
             </Card.Body>
             <Card.Footer>
                 <small>Topic: {topic}</small>

@@ -5,7 +5,7 @@ import CollectionCard from "./CollectionCard";
 
 const CollectionGrid = ({ collections }) => {
     return (
-        <Row className="justify-content-center">
+        <Row className="justify-content-center justify-content-md-start">
             {collections.map((collection, index) => (
                 <Col
                     key={index}
