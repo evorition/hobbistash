@@ -3,10 +3,12 @@ import Container from "react-bootstrap/Container";
 
 import collectionsService from "../services/collections";
 import itemsService from "../services/items";
+import LoadingSpinner from "../components/LoadingSpinner";
 import CollectionGrid from "../components/CollectionGrid";
 import ItemCard from "../components/ItemCard";
 
 const HomePage = () => {
+    const [loading, setLoading] = useState(true);
     const [collections, setCollections] = useState([]);
     const [items, setItems] = useState([]);
 
@@ -16,8 +18,13 @@ const HomePage = () => {
             setCollections(biggestCollections);
             const latestItems = await itemsService.getAll();
             setItems(latestItems);
+            setLoading(false);
         })();
     }, []);
+
+    if (loading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Container className="my-4">
