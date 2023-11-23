@@ -49,7 +49,7 @@ const UserPage = () => {
                         md={6}
                         className="d-flex align-items-center justify-content-md-end"
                     >
-                        <Button>New collection</Button>
+                        <Button href="/collection/new">New collection</Button>
                     </Col>
                 )}
             </Row>

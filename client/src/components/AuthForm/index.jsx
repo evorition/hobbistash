@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import InputField from "./InputField";
-// import Notification from "../Notification";
 
 const AuthForm = ({ title, fields, schema, onSubmit, submitButtonText }) => {
     const { handleSubmit, ...formMethods } = useForm({
@@ -38,7 +37,6 @@ const AuthForm = ({ title, fields, schema, onSubmit, submitButtonText }) => {
                             {submitButtonText}
                         </Button>
                     </Form>
-                    {/* <Notification /> */}
                 </Col>
             </Row>
         </Container>

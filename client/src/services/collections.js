@@ -14,4 +14,9 @@ const getById = async (id) => {
     return response.data;
 };
 
-export default { getAll, getById };
+const create = async (newObject) => {
+    const response = await axios.post(`${baseUrl}`, newObject, getHeaders());
+    return response.data;
+};
+
+export default { getAll, getById, create };

@@ -54,10 +54,7 @@ const create = async (req, res) => {
     }
     const newCollection = await new Collection(newCollectionData).save();
     addCollectionToUser(newCollectionUserId, newCollection._id);
-    const populatedCollection = await Collection.findById(
-        newCollection._id
-    ).populate("user", { username: 1 });
-    res.status(201).json(populatedCollection);
+    res.status(201).json({ collectionId: newCollection._id });
 };
 
 const update = async (req, res) => {
