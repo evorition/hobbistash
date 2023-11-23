@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import storage from "../utils/storage";
 
@@ -16,7 +17,16 @@ const UserContextProvider = ({ children }) => {
 
     const loadUser = () => {
         const storedUser = storage.getUser();
-        setUser(storedUser);
+        if (storedUser) {
+            const decodedToken = jwtDecode(storedUser.accessToken);
+            const expirationDate = decodedToken.exp * 1000;
+            const currentTime = Date.now();
+            if (expirationDate < currentTime) {
+                storage.removeUser();
+            } else {
+                setUser(storedUser);
+            }
+        }
     };
 
     const signOut = () => {

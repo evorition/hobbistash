@@ -6,7 +6,7 @@ const ItemCard = ({ item }) => {
     return (
         <Card className="mb-4">
             <Card.Header>
-                <Card.Link href="#">{item.name}</Card.Link>
+                <Card.Link href={`/item/${item.id}`}>{item.name}</Card.Link>
             </Card.Header>
             <Card.Body>
                 <Card.Text>

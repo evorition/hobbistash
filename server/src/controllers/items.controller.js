@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
     res.json(items);
 };
 
-const getById = async () => {
+const getById = async (req, res) => {
     const { itemId } = req.params;
     const item = await populateItem(itemId);
     if (!item) {

@@ -14,13 +14,15 @@ const getTheme = () => {
 
 const setUser = (user) => {
     localStorage.setItem("user", JSON.stringify(user));
-    token = user.token;
+    token = user.accessToken;
 };
 
 const getUser = () => {
     const user = localStorage.getItem("user");
     if (user) {
-        return JSON.parse(user);
+        const parsedUser = JSON.parse(user);
+        token = parsedUser.accessToken;
+        return parsedUser;
     }
     return null;
 };

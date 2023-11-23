@@ -11,7 +11,7 @@ const NotificationContextProvider = ({ children }) => {
         setNotificationMessage(message);
         setTimeout(() => {
             setNotificationMessage(null);
-        }, 10000);
+        }, 5000);
     };
 
     return (

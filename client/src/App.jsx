@@ -8,6 +8,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
 import CollectionPage from "./pages/CollectionPage";
+import ItemPage from "./pages/ItemPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 
@@ -30,6 +31,7 @@ const App = () => {
                     path="/collection/:collectionId"
                     element={<CollectionPage />}
                 />
+                <Route path="/item/:itemId" element={<ItemPage />} />
                 <Route path="/signin" element={<SignInPage />} />
                 <Route path="/signup" element={<SignUpPage />} />
             </Routes>
