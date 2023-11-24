@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import { BsHeart, BsHeartFill, BsFillTrashFill } from "react-icons/bs";
@@ -81,7 +82,15 @@ const ItemPage = () => {
                 item.customFields.map((customField, customFieldIndex) => (
                     <Row key={customFieldIndex}>
                         <h5>{customField.name}</h5>
-                        <p>{customField.value}</p>
+                        {customField.type === "boolean" ? (
+                            <Form.Check
+                                type="checkbox"
+                                checked={customField.value}
+                                readOnly
+                            />
+                        ) : (
+                            <p>{customField.value}</p>
+                        )}
                     </Row>
                 ))}
             <Button
