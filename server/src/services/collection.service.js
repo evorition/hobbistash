@@ -3,14 +3,14 @@ import Collection from "../models/collection.model.js";
 const removeItemFromCollection = async (collectionId, itemId) => {
     await Collection.updateOne(
         { _id: collectionId },
-        { $pull: { items: itemId } }
+        { $pull: { items: itemId }, $inc: { itemsCount: -1 } }
     );
 };
 
 const addItemIdToCollection = async (collectionId, itemId) => {
     await Collection.updateOne(
         { _id: collectionId },
-        { $push: { items: itemId } }
+        { $push: { items: itemId }, $inc: { itemsCount: 1 } }
     );
 };
 

@@ -17,6 +17,7 @@ const collectionSchema = mongoose.Schema(
         customFields: [customFieldSchema],
         items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        itemsCount: { type: Number, default: 0 },
     },
     { timestamps: { createdAt: true, updatedAt: false } }
 );
