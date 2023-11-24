@@ -3,9 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
+import { BsFillTrashFill } from "react-icons/bs";
 
 import dateUtils from "../utils/date";
+import { useUser } from "../contexts/UserContext";
 import collectionsService from "../services/collections";
 import { useNotification } from "../contexts/NotificationContext";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -13,6 +16,7 @@ import ItemsTable from "../components/ItemsTable";
 
 const CollectionPage = () => {
     const navigate = useNavigate();
+    const { user } = useUser();
     const { displayNotification } = useNotification();
     const { collectionId } = useParams();
     const [collection, setCollection] = useState({});
@@ -34,6 +38,16 @@ const CollectionPage = () => {
         })();
     }, []);
 
+    const handleCollectionRemove = async () => {
+        try {
+            await collectionsService.remove(collectionId);
+            navigate(`/user/${user.id}`);
+        } catch (error) {
+            displayNotification(error);
+            navigate("/");
+        }
+    };
+
     if (loading) {
         return <LoadingSpinner />;
     }
@@ -41,7 +55,7 @@ const CollectionPage = () => {
     return (
         <Container>
             <Row className="my-4 justify-content-center">
-                <Col sm="auto">
+                <Col md="auto">
                     <Image
                         src={collection.imageUrl || "/no-image.webp"}
                         style={{
@@ -74,6 +88,23 @@ const CollectionPage = () => {
                         <p>{collection.topic}</p>
                     </Row>
                 </Col>
+                {user && user.id === collection.user.id && (
+                    <Col lg="auto" className="d-flex flex-column">
+                        <Button
+                            className="mb-2 mt-sm-2 align-self-start"
+                            href={`/collection/${collection.id}/add-item`}
+                        >
+                            Add new Item
+                        </Button>
+                        <Button
+                            className="align-self-start"
+                            variant="danger"
+                            onClick={handleCollectionRemove}
+                        >
+                            <BsFillTrashFill />
+                        </Button>
+                    </Col>
+                )}
             </Row>
             {collection.items.length > 0 ? (
                 <ItemsTable

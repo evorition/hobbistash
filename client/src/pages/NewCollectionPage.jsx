@@ -1,16 +1,16 @@
-import { useUser } from "../contexts/UserContext";
+import * as Yup from "yup";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import { Controller, useForm, useFieldArray } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import collectionsService from "../services/collections";
+import { useUser } from "../contexts/UserContext";
 import { useNotification } from "../contexts/NotificationContext";
-import CustomField from "../components/CustomField";
+import CollectionCustomField from "../components/CollectionCustomField";
 
 const newCollectionSchema = Yup.object().shape({
     name: Yup.string().trim().required("Collection name is required"),
@@ -125,7 +125,7 @@ const NewCollectionPage = () => {
                 <Form.Group>
                     <Form.Label>Custom Fields</Form.Label>
                     {fields.map((field, index) => (
-                        <CustomField
+                        <CollectionCustomField
                             key={field.id}
                             index={index}
                             control={control}

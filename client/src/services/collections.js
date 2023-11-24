@@ -19,4 +19,8 @@ const create = async (newObject) => {
     return response.data;
 };
 
-export default { getAll, getById, create };
+const remove = async (id) => {
+    await axios.delete(`${baseUrl}/${id}`, getHeaders());
+};
+
+export default { getAll, getById, create, remove };

@@ -61,11 +61,11 @@ const commonItemSchema = {
                 ).type;
                 switch (type) {
                     case "number":
-                        return typeof value === "number";
+                        return typeof parseInt(value, 10) === "number";
                     case "string":
                         return typeof value === "string";
                     case "text":
-                        return typeof value === "text";
+                        return typeof value === "string";
                     case "date":
                         return !isNaN(Date.parse(value));
                     case "boolean":

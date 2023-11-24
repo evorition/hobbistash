@@ -9,7 +9,7 @@ import {
 
 const getAll = async (req, res) => {
     const { limit } = req.query;
-    let collectionsQuery = Collection.find().sort({ itemsCount: -1 });
+    let collectionsQuery = Collection.find().sort({ items: -1 });
     if (limit) {
         collectionsQuery = collectionsQuery.limit(parseInt(limit, 10));
     }

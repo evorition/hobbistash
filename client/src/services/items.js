@@ -18,4 +18,13 @@ const like = async (id) => {
     await axios.post(`${baseUrl}/${id}/like`, null, getHeaders());
 };
 
-export default { getAll, getById, like };
+const create = async (newObject) => {
+    const respones = await axios.post(`${baseUrl}`, newObject, getHeaders());
+    return respones.data;
+};
+
+const remove = async (id) => {
+    await axios.delete(`${baseUrl}/${id}`, getHeaders());
+};
+
+export default { getAll, getById, like, create, remove };

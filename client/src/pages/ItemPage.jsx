@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsHeart, BsHeartFill, BsFillTrashFill } from "react-icons/bs";
 
 import dateUtils from "../utils/date";
 import itemsService from "../services/items";
@@ -48,6 +48,16 @@ const ItemPage = () => {
         setItem((prevItem) => ({ ...prevItem, likes: updatedLikes }));
     };
 
+    const handleItemRemove = async () => {
+        try {
+            await itemsService.remove(itemId);
+            navigate(`/collections/${collection.id}`);
+        } catch (error) {
+            displayNotification(error);
+            navigate("/");
+        }
+    };
+
     if (loading) {
         return <LoadingSpinner />;
     }
@@ -81,6 +91,15 @@ const ItemPage = () => {
             >
                 {isLiked ? <BsHeartFill /> : <BsHeart />} {item.likes.length}
             </Button>
+            {user && user.id === item.user.id && (
+                <Button
+                    className="align-self-start ms-2"
+                    variant="danger"
+                    onClick={handleItemRemove}
+                >
+                    <BsFillTrashFill />
+                </Button>
+            )}
         </Container>
     );
 };

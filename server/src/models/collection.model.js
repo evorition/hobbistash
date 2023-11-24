@@ -21,10 +21,6 @@ const collectionSchema = mongoose.Schema(
     { timestamps: { createdAt: true, updatedAt: false } }
 );
 
-collectionSchema.virtual("itemsCount").get(function () {
-    return this.items.length;
-});
-
 collectionSchema.set("toJSON", {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();

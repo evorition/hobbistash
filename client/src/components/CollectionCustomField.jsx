@@ -7,7 +7,12 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { BsFillTrashFill } from "react-icons/bs";
 import { Controller } from "react-hook-form";
 
-const customField = ({ index, control, errors, removeCustomField }) => (
+const CollectionCustomField = ({
+    index,
+    control,
+    errors,
+    removeCustomField,
+}) => (
     <Row className="mb-3">
         <Col xs={4} sm={2}>
             <FloatingLabel label="Type">
@@ -61,4 +66,4 @@ const customField = ({ index, control, errors, removeCustomField }) => (
     </Row>
 );
 
-export default customField;
+export default CollectionCustomField;

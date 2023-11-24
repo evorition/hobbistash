@@ -45,8 +45,7 @@ const create = async (req, res) => {
     }
     const newItem = await new Item(newItemData).save();
     await addItemIdToCollection(newItem.collection, newItem._id);
-    const populatedItem = await populateItem(newItem._id);
-    res.status(201).json(populatedItem);
+    res.status(201).json({ itemId: newItem._id });
 };
 
 const like = async (req, res) => {
