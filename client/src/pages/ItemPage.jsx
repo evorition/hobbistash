@@ -51,7 +51,7 @@ const ItemPage = () => {
     const handleItemRemove = async () => {
         try {
             await itemsService.remove(itemId);
-            navigate(`/collections/${collection.id}`);
+            navigate(`/collection/${item.collection.id}`);
         } catch (error) {
             displayNotification(error);
             navigate("/");
